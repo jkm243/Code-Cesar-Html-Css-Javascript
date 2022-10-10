@@ -1,0 +1,19 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: '', sans-serif !important;
+}
+
+.key {
+  text-align: center;
+}
+
+.footer {
+  padding: 5%;
+  background-color: white;
+  color: black;
+}
+/*# sourceMappingURL=styles.css.map */

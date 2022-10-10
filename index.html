@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dist/css/styles.min.css">
+    <link rel="icon" href="img/logo.ico" type="images">
+    <title>CodeCesar</title>
+
+    <!-- lien Boostrap -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <!-- Lien Fonts -->
+    <link rel="stylesheet" href="css/font-face.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lien FontAwesome -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+</head>
+<body>
+  <section class="container-fluid">
+    <div class=" text-center">
+      <img class="rounded img-thumbnail mt-5" src="img/logo.ico" alt="Logo">
+      <h1 class="text-center mt-3">Шифр Цезаря</h1>
+    </div>
+    <p class="m-6">Юлий Цезарь был, якобы первым, кто придумал собственно шифр. Алфавит размещается на круге по часовой стрелке (при этом в русском алфавите, после А идет Б, а после Я - А). Для зашифровки буквы текста заменяются буквами, отстоящими по кругу на заданное число букв дальше по часовой стрелке. Если, скажем, сдвиг на 3, то вместо i-й используется (i+3)-я буква, например, вместо А пишется Г а вместо Я пишется В. При расшифровке наоборот берут букву на заданное число букв ближе, т. е. двигаясь против часовой стрелки.</p>
+    <section>
+      <!-- Choix cryptage -->
+      <div class="choice text-center pb-5 pt-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="bout1 btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off"> No Crypted
+          </label>
+          <label class="bout2 btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Crypted
+          </label>
+        </div>
+      </div>
+
+      <!-- Choix de la cle -->
+      <div class="key">
+        <div class="form-row align-items-center">
+          <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+            <select class="custom-select mr-sm-1" id="inlineFormCustomSelect">
+              <option selected>Choose the key...</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="1">4</option>
+              <option value="2">5</option>
+              <option value="3">6</option>
+              <option value="1">7</option>
+              <option value="2">8</option>
+              <option value="3">9</option>
+              <option value="1">10</option>
+            </select>
+          </div>
+          <div class="col-auto my-1">
+            <div class="custom-control custom-checkbox mr-sm-2">
+              <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+              <label class="custom-control-label" for="customControlAutosizing">Remember my preference</label>
+            </div>
+          </div>
+          <!-- <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Entree de texte -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Original Text</span>
+        </div>
+        <textarea class="form-control original" aria-label="With textarea"></textarea>
+      </div>
+
+      <!-- Sortie de texte -->
+      <div class="input-group pt-5 pb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Crypted Text</span>
+        </div>
+        <textarea class="form-control crypted" aria-label="With textarea" readonly></textarea>
+      </div>
+
+      <div class="erreur pb-5"></div>
+
+    </section>
+  </section>
+  <section class="footer container-fluid">
+    <p class="ft">© 2020 Работа студенты Иивт-Ви23 Катсува Жак-Эммануэль Мутано  <br>
+  Все материалы, находящиеся на сайте охраняются в соответствии с законодательством Российской Федерации, в том числе об авторском праве и смежных правах.</p>
+  </section>
+
+</body>
+  <script src="vendor/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+  <script src="js/main.js"></script>
+</html>
