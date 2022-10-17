@@ -1,3 +1,4 @@
+// 1
 var option1 = document.querySelector('#option1')
 var option2 = document.querySelector("#option2")
 var key = document.querySelector('#inlineFormCustomSelect')
@@ -6,6 +7,36 @@ var txtCr = document.querySelector(".crypted")
 var bout1 = document.querySelector('.bout1')
 var bout2 = document.querySelector(".bout2")
 var erreur = document.querySelector('.erreur')
+
+// 2
+var key_A = document.querySelector('#inlineFormCustomSelectA')
+var key_B = document.querySelector('#inlineFormCustomSelectB')
+var erreur2 = document.querySelector('.erreur2')
+var txtOr2 = document.querySelector('.txtOr2')
+var txtCr2 = document.querySelector(".txtCr2")
+
+var textareas = document.getElementsByTagName("textarea");
+
+// Blur Textareas
+for (var i = textareas.length - 1; i >= 0; i--) {
+    textareas[i].onfocus = function () {
+        if (this.value == '. . .') {
+            this.value = '';
+        }
+        if (this.innerHTML != 'attack at dawn') {
+            var v = this.value;
+            this.innerHTML = '';
+            this.value = v;
+        }
+    };
+    textareas[i].onblur = function () {
+        if (this.value) {
+            return;
+        } else {
+            this.value = '. . .';
+        }
+    };
+}
 
 
 // Changement option de traduction
@@ -24,7 +55,7 @@ option2.addEventListener("click", (e) => {
     txtOr.innerHTML = ''
 })
 
-// Traduction sur texte original
+// Traduction sur texte original Cesar 1
 txtOr.addEventListener("input", (e) => {
     // Recuperation valeur de la cle
     if (key.value == 'Choose the key...') {
@@ -37,9 +68,13 @@ txtOr.addEventListener("input", (e) => {
     } else if (option2.checked === true) {
         txtCr.innerHTML = cesar(txtOr.value, 26 - (parseInt(key.value)))
         erreur.innerHTML = ''
-    }
+    } 
 })
 
+
+
+
+// ------------------Functions---------------------------------
 
 function cesar(str, amount) {
     if (amount < 0)

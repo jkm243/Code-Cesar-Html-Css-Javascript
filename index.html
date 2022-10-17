@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dist/css/styles.min.css">
+    <link rel="stylesheet" href="css/styles.min.css">
     <link rel="icon" href="img/logo.ico" type="images">
     <title>CodeCesar</title>
 
@@ -32,10 +32,10 @@
     />
 </head>
 <body>
-  <section class="container-fluid">
+  <section class="container">
     <div class=" text-center">
       <img class="rounded img-thumbnail mt-5" src="img/logo.ico" alt="Logo">
-      <h1 class="text-center mt-3">Шифр Цезаря</h1>
+      <h1 class="text-center mt-3">Шифр Цезаря 2.0</h1>
     </div>
     <p class="m-6">Юлий Цезарь был, якобы первым, кто придумал собственно шифр. Алфавит размещается на круге по часовой стрелке (при этом в русском алфавите, после А идет Б, а после Я - А). Для зашифровки буквы текста заменяются буквами, отстоящими по кругу на заданное число букв дальше по часовой стрелке. Если, скажем, сдвиг на 3, то вместо i-й используется (i+3)-я буква, например, вместо А пишется Г а вместо Я пишется В. При расшифровке наоборот берут букву на заданное число букв ближе, т. е. двигаясь против часовой стрелки.</p>
     <section>
@@ -61,13 +61,13 @@
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
-              <option value="1">4</option>
-              <option value="2">5</option>
-              <option value="3">6</option>
-              <option value="1">7</option>
-              <option value="2">8</option>
-              <option value="3">9</option>
-              <option value="1">10</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
             </select>
           </div>
           <div class="col-auto my-1">
@@ -87,7 +87,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Original Text</span>
         </div>
-        <textarea class="form-control original" aria-label="With textarea"></textarea>
+        <textarea class="form-control original" aria-label="With textarea">. . .</textarea>
       </div>
 
       <!-- Sortie de texte -->
@@ -95,10 +95,98 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Crypted Text</span>
         </div>
-        <textarea class="form-control crypted" aria-label="With textarea" readonly></textarea>
+        <textarea class="form-control crypted" aria-label="With textarea" readonly>. . .</textarea>
       </div>
 
       <div class="erreur pb-5"></div>
+
+    </section>
+  </section>
+  <section class="container mt-5">
+    <div class=" text-center">
+      <h1 class="text-center mt-3">Аффинная система подстановок Цезаря</h1>
+    </div>
+    <p class="m-6">При шифровании с использованием аффинной системы подстановок Цезаря буква с порядковым номером t в соответствующем алфавите заменяется на букву, порядковый номер которой в этом же алфавите рассчитывается по формуле (at + b) mod m, где a, b - числовые ключи, а m - количество букв в алфавите.
+      При выборе ключа а необходимо учитывать следующее требование: а и m должны быть взаимно простыми числами, то есть наибольший общий делитель а и m должен быть равен 1.
+      </p>
+    <section>
+      <!-- Choix cryptage -->
+      <div class="choice text-center pb-5 pt-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="bout1 btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off"> No Crypted
+          </label>
+          <label class="bout2 btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Crypted
+          </label>
+        </div>
+      </div>
+    
+      <!-- Choix de la cle -->
+      <div class="key mt-5">
+        <div class="form-row align-items-center">
+          <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelectA">Preference</label>
+            <select class="custom-select mr-sm-1" id="inlineFormCustomSelectA">
+              <option selected>Choose the key A</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelectB">Preference</label>
+            <select class="custom-select mr-sm-1" id="inlineFormCustomSelectB">
+              <option selected>Choose the key B</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alphabet -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Alphabet</span>
+        </div>
+        <input class="form-control" id="alphabet" aria-label="With textarea" value="абвгдеёжзийклмнопрстуфхцчшщъыьэюя" readonly></input>
+      </div>
+
+      <!-- Entree de texte -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Original Text</span>
+        </div>
+        <textarea class="form-control txtOr2" id="source" aria-label="With textarea">. . .</textarea>
+      </div>
+
+      <!-- Sortie de texte -->
+      <div class="input-group pt-5 pb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Crypted Text</span>
+        </div>
+        <textarea class="form-control txtCr2" id="dest" aria-label="With textarea" readonly>. . .</textarea>
+      </div>
+
+      <div class="erreur2 pb-5"></div>
+      <div id="error"></div>
 
     </section>
   </section>
@@ -111,4 +199,5 @@
   <script src="vendor/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/affine.js"></script>
 </html>

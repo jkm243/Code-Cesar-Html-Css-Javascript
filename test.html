@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Аффинная система подстановок Цезаря</title>
+		<meta charset="UTF-8">
+		<style>
+			/* common */
+			html, body {
+				position: relative; min-height: 100%; padding: 0; margin: 0; background-color: white; font-size: 100%;
+			}
+			#wrapper {
+				padding: 50px 0 100px 0; position: relative;
+			}
+			#main {
+				margin: 0 auto 4px; width: 700px; background-color: #FCFCFC; border-radius: 20px; box-shadow: 0 0 5px #AAA; padding: 40px;
+			}
+			#footer {
+				font-size: 14px; width: 700px; margin: 0 auto; background-color: #F5F9FF; padding: 15px 40px; color: #999; box-shadow: 0 0 5px #AAA; border-radius: 10px;
+			} #footer div {
+				float: right; margin-top: -1px; font-size: 14px;
+			} #footer a {
+				font-size: 14px;
+			}
+			* {
+				font-family: "Segoe UI", "Calibri", "Ubuntu", "Trebuchet MS", sans-serif; color: #333; margin: 0; padding: 0; outline: none; text-shadow: -1px 1px 0px #F5F5F5;
+			}
+			::selection {
+				text-shadow: none; /* not working? */
+			}
+			table { 
+				border-spacing: 0; border-collapse: collapse;
+			}
+			hr {
+				margin: 10px 0; height: 1px; background-color: lightgrey; border: none; box-shadow: 0px 1px 1px #FFF;
+			}
+			.header {
+				margin-bottom: 15px; text-align: center;
+			}
+			  h1 {
+				font-weight: normal; letter-spacing: 2px; font-size: 110%;
+			}
+			  a {
+				text-decoration: none; border-bottom: 1px solid #3696C6; color: #3696C6;
+			} a:hover {
+				border-bottom: 1px solid #8ED7FB;
+			}
+			/* forms */
+			  textarea, input {
+				font-size: 100%;
+			} textarea:focus, input:focus {
+				box-shadow: 0 0 3px #D3D3D3;
+			} textarea {
+				border-radius: 4px; width: 680px; height: 100px; border: 1px solid lightgrey; padding: 5px 10px; resize: vertical;
+			} input {
+				border-radius: 4px; width: 680px; padding: 5px 10px; border: 1px solid lightgrey; margin-bottom: 10px;
+			} button {
+				padding: 8px 16px; border-radius: 3px; cursor: pointer; margin-bottom: 10px; background-color: #2491C8; border: none; color: white; font-size: 115%; text-shadow: none; width: 100%;
+			} button:hover {
+				background-color: #2988B8;
+			} button:active {
+				box-shadow: 0 0 2px #155F83;
+			} .lab {
+				margin-bottom: 10px;
+			} label {
+				cursor: pointer; letter-spacing: 1px;
+			}
+			/* panel */
+			  .cpanel {
+				width: 100%; margin-top: 20px;
+			} .cpanel input {
+				width: 100px;
+			} #error {
+				display: none; color: maroon; margin: 15px 0 10px 0;
+			}
+			/* info */
+			  #info p {
+				font-size: 87%; color: #4E4E4E; text-align: justify; text-indent: 35px; padding: 5px 0; line-height: 150%;
+			} span.code {
+				font-family: "Consolas", "Ubuntu Mono", "Andale Mono", monospace; background-color: #EEE; border-radius: 3px; padding: 3px 6px; color: #101010; text-shadow: -1px 1px 0px #EEE;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="main">
+				<script>
+					onload = function() {
+						/* Оформление */
+						var textareas = document.getElementsByTagName("textarea");
+						var originalSource = document.getElementById('source').innerHTML;
+						for (var i = textareas.length - 1; i >= 0; i--) {
+							textareas[i].onfocus = function() {
+								if (this.value == '. . .') {
+									this.value = '';
+								}
+								if (this.innerHTML != 'attack at dawn') {
+									var v = this.value;
+									this.innerHTML = '';
+									this.value = v;
+								}
+							};
+							textareas[i].onblur = function() {
+								if (this.value) {
+									return;
+								} else {
+									this.value = '. . .';
+								}
+							};
+						}
+						/* конец оформления */
+						var cipher = new AffinCipher('source', 'dest');
+						cipher.init();
+						document.getElementById('encrypt').onclick = function() {
+							cipher.encrypt();
+						}
+						document.getElementById('decrypt').onclick = function() {
+							cipher.decrypt();
+						}
+						document.getElementById('alphabet').onkeyup = function() {
+							this.setAttribute('title', this.value.length + ' символов');
+						}
+						document.getElementById('alphabet').onkeyup();
+					};
+
+					/**
+					 * @param string source id textarea с исходным текстом
+					 * @param string dest id textarea с зашифрованным текстом
+					 */
+					function AffinCipher(source, dest) {
+						this.src = document.getElementById(source);
+						this.dst = document.getElementById(dest);
+
+						this.init = function() {
+							this.alphabet = document.getElementById('alphabet').value;
+							this.kInput = document.getElementById('K');
+							this.aInput = document.getElementById('A');
+							this.prevAlph = this.alphabet.toLowerCase();
+							this.symbols = [];
+							for (var i = 0; i < this.prevAlph.length; i++) {
+								this.symbols.push(this.prevAlph.charAt(i));
+							}
+						};
+						/**
+						 * Проверяет, являются ли два числа взаимно простыми.
+						 * @param a int число
+						 * @param b int число
+						 * @return boolean true, если являются, false - иначе
+						 **/
+						this.isCoprime = function(a, b) {
+							var min = Math.min(a, b);
+							for (var i = 2; i <= min; i++) {
+								if (!(a % i) && !(b % i))
+									return false;
+							}
+							return true;
+						};
+						/**
+						 * Возвращает номер буквы c в алфавите symbols
+						 * @param symbols array буквы
+						 * @param c буква
+						 * @return int номер позиции c в symbols, -1,
+						 * если такая отсутствует.
+						 */
+						this.getPos = function(c) {
+							for (var i = 0; i < this.alphabet.length; i++) {
+								if (this.alphabet.charAt(i) == c)
+									return i;
+							}
+							return -1;
+						};
+						this.encrypt = function() {
+							this.alphabet = document.getElementById('alphabet').value;
+							var k = parseInt(this.kInput.value);
+							var a = parseInt(this.aInput.value);
+							this.kInput.value = k;
+							this.aInput.value = a;
+							if (!this.validate(a, k)) {
+								return;
+							}
+							document.getElementById('error').style.display = 'none';
+							var n = this.alphabet.length;
+							var text = this.src.value.toLowerCase();
+							var encryptedT = '';
+							for (var i = 0; i < text.length; i++) {
+								var c = text.charAt(i);
+								var pos = this.alphabet.indexOf(c);
+								if (pos < 0) {
+									encryptedT += c; // не шифруем данный символ
+									continue;
+								}
+								var newPos = (parseInt(pos) * k + a) % n;
+								var newC = this.alphabet.charAt(newPos);
+								encryptedT += newC;
+							}
+							this.dst.value = encryptedT;
+						};
+						this.decrypt = function() {
+							this.alphabet = document.getElementById('alphabet').value;
+							var k = parseInt(this.kInput.value);
+							var a = parseInt(this.aInput.value);
+							this.kInput.value = k;
+							this.aInput.value = a;
+							if (!this.validate(a, k)) {
+								return;
+							}
+							document.getElementById('error').style.display = 'none';
+							var n = this.alphabet.length;
+							var kInverse = this.calcInverse(k, n);
+							var text = this.dst.value.toLowerCase();
+							var decryptedT = '';
+							for (var i = 0; i < text.length; i++) {
+								var c = text.charAt(i);
+								var pos = this.alphabet.indexOf(c);
+								if (pos < 0) {
+									decryptedT += c; // не расшифровываем данный символ
+									continue;
+								}
+								var newPos = (kInverse * (parseInt(pos) + n - a)) % n;
+								var newC = this.alphabet.charAt(newPos);
+								decryptedT += newC;
+							}
+							this.src.value = decryptedT;
+						};
+						/**
+						 * Проверяет, корректны ли значения A и K.
+						 * Устанавливает текст ошибки в div#error
+						 * @param a int число A из формы
+						 * @param k int число K из формы
+						 * @return boolean true если всё верно, иначе - false.
+						 */
+						this.validate = function(a, k) {
+							var coprime = '<a href="http://ru.wikipedia.org/wiki/Взаимно_простые_числа" target="_blank">взаимно простыми</a>';
+							var errorDiv = document.getElementById('error');
+							if (a != parseInt(a) || k != parseInt(k)) {
+								errorDiv.style.display = 'block';
+								errorDiv.innerHTML = 'A и K должны быть целыми числами.';
+								return false;
+							}
+							if (k <= 0 || a < 0) {
+								errorDiv.style.display = 'block';
+								errorDiv.innerHTML = 'A и K не могут быть отрицательными; K не может быть равен нулю.';
+								return false;
+							}
+							if (!this.isCoprime(this.alphabet.length, k)) {
+								errorDiv.style.display = 'block';
+								errorDiv.innerHTML = 'Длина алфавита (' +
+										this.alphabet.length +
+										') и K не должны быть ' + coprime + '.';
+								return false;
+							}
+							return true;
+						};
+						this.calcInverse = function(k, n) {
+							for (var i = 1; i < n; i++) {
+								if ((k * i) % n == 1)
+									return i;
+							}
+							return 1;
+						};
+					}
+				</script>
+				<div class="header">
+					<h1>Шифрование с помощью <a href="http://ru.wikipedia.org/wiki/Аффинный_шифр" target="_blank">аффинной системы подстановок Цезаря</a></h1>
+				</div>
+				<hr />
+				<div class="lab">
+					<label for="alphabet">Алфавит:</label>
+				</div>
+				<div>
+					<input type="text" id="alphabet" value="abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя" /><!-- абвгдеёжзийклмнопрстуфхцчшщъыьэюя -->
+				</div>
+				<div class="lab">
+					<label for="source">Исходный текст:</label>
+				</div>
+				<textarea id="source">attack at dawn</textarea>
+				<hr />
+				<div class="lab">
+					<label for="dest">Зашифрованный текст:</label>
+				</div>
+				<textarea id="dest">. . .</textarea>
+				<hr />
+				<table class="cpanel">
+					<tr>
+						<td style="width: 50%">
+							K: <input type="text" id="K" value="6" /> A: <input type="text" id="A" value="11" />
+						</td>
+						<td style="width: 25%; padding-right: 5px">
+							<button id="encrypt">Зашифровать</button>
+						</td>
+						<td style="width: 25%; padding-left: 5px">
+							<button id="decrypt">Расшифровать</button>
+						</td>
+					</tr>
+				</table>
+				<hr />
+				<div id="error"></div>
+				<div id="info">
+					<p>Подстановка при шифровании: <span class="code">y = (K * x + A) % n</span>, где</p>
+					<p><span class="code">K</span> и <span class="code">A</span> задаются на форме,
+					<span class="code">x</span> – позиция шифруемого символа в алфавите,
+					а <span class="code">n</span> – количество символов в алфавите. Символы, не встречающиеся в алфавите
+					не шифруются.</p>
+					<p>Дешифровка осуществляется по формуле <span class="code">x = (inv[K] * (y + n - A)) % n</span>, где</p>
+					<p><span class="code">inv[K]</span> – такое число, что <span class="code">(inv[K] * K) % n = 1</span>.</p>
+				</div>
+			</div>
+			<div id="footer">
+				Илья Кремер, НИ-501
+				<div>
+					<a href="http://www.rudn.ru/" target="_blank">РУДН</a>, 2012
+				</div>
+			</div>
+		</div>
+		<div style="width: 100%; position: absolute; bottom: 0">
+			<!-- place footer here and set its margin to 'margin: 0 auto 50px' for bottom behavior -->
+		</div>
+	</body>
+</html>

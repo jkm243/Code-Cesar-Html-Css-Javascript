@@ -5,6 +5,7 @@
 
 body{
     font-family: '', sans-serif !important;
+   
 }
 
 .key{
@@ -15,5 +16,8 @@ body{
     padding: 5%;
     background-color: white;
     color: black;
+}
+#error {
+    display: none; color: red; margin: 15px 0 10px 0;
 }
 
