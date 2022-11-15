@@ -21,4 +21,8 @@ body {
   display: none;
   color: red;
   margin: 15px 0 10px 0;
+}
+
+.pagination {
+  text-align: center;
 }/*# sourceMappingURL=styles.css.map */

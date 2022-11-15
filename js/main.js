@@ -2,7 +2,7 @@
 var option1 = document.querySelector('#option1')
 var option2 = document.querySelector("#option2")
 var key = document.querySelector('#inlineFormCustomSelect')
-var txtOr = document.querySelector('.original')
+var txtOr = document.querySelector('.original-ces')
 var txtCr = document.querySelector(".crypted")
 var bout1 = document.querySelector('.bout1')
 var bout2 = document.querySelector(".bout2")
@@ -56,7 +56,7 @@ option2.addEventListener("click", (e) => {
 })
 
 // Traduction sur texte original Cesar 1
-txtOr.addEventListener("input", (e) => {
+txtOr.addEventListener("input", () => {
     // Recuperation valeur de la cle
     if (key.value == 'Choose the key...') {
         erreur.innerHTML = '*Choose the key...'

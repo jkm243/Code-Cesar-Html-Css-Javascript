@@ -32,82 +32,19 @@
     />
 </head>
 <body>
-  <section class="container">
-    <div class=" text-center">
-      <img class="rounded img-thumbnail mt-5" src="img/logo.ico" alt="Logo">
-      <h1 class="text-center mt-3">Шифр Цезаря 3.0</h1>
-    </div>
-    <p class="m-6">Юлий Цезарь был, якобы первым, кто придумал собственно шифр. Алфавит размещается на круге по часовой стрелке (при этом в русском алфавите, после А идет Б, а после Я - А). Для зашифровки буквы текста заменяются буквами, отстоящими по кругу на заданное число букв дальше по часовой стрелке. Если, скажем, сдвиг на 3, то вместо i-й используется (i+3)-я буква, например, вместо А пишется Г а вместо Я пишется В. При расшифровке наоборот берут букву на заданное число букв ближе, т. е. двигаясь против часовой стрелки.</p>
-    <section>
-      <!-- Choix cryptage -->
-      <div class="choice text-center pb-5 pt-3">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="bout1 btn btn-secondary active">
-            <input type="radio" name="options" id="option1" autocomplete="off"> No Crypted
-          </label>
-          <label class="bout2 btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Crypted
-          </label>
-        </div>
-      </div>
-
-      <!-- Choix de la cle -->
-      <div class="key">
-        <div class="form-row align-items-center">
-          <div class="col-auto my-1">
-            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-            <select class="custom-select mr-sm-1" id="inlineFormCustomSelect">
-              <option selected>Choose the key...</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-          </div>
-          <div class="col-auto my-1">
-            <div class="custom-control custom-checkbox mr-sm-2">
-              <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-              <label class="custom-control-label" for="customControlAutosizing">Remember my preference</label>
-            </div>
-          </div>
-          <!-- <div class="col-auto my-1">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div> -->
-        </div>
-      </div>
-
-      <!-- Entree de texte -->
-      <div class="input-group pt-5 ">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Original Text</span>
-        </div>
-        <textarea class="form-control original-ces" aria-label="With textarea">. . .</textarea>
-      </div>
-
-      <!-- Sortie de texte -->
-      <div class="input-group pt-5 pb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Crypted Text</span>
-        </div>
-        <textarea class="form-control crypted" aria-label="With textarea" readonly>. . .</textarea>
-      </div>
-
-      <div class="erreur pb-5"></div>
-
-    </section>
-  </section>
   <section class="container mt-5">
     <div class=" text-center">
-      <h1 class="text-center mt-3">Аффинная система подстановок Цезаря</h1>
+      <h1 class="text-center mt-3">Система шифрования Трисемуса</h1>
     </div>
-    <p class="m-6">При шифровании с использованием аффинной системы подстановок Цезаря буква с порядковым номером t в соответствующем алфавите заменяется на букву, порядковый номер которой в этом же алфавите рассчитывается по формуле (at + b) mod m, где a, b - числовые ключи, а m - количество букв в алфавите.
-      При выборе ключа а необходимо учитывать следующее требование: а и m должны быть взаимно простыми числами, то есть наибольший общий делитель а и m должен быть равен 1.
+    <p class="m-6">Составной ключ шифрования в данной системе включает ключевое слово и размер таблицы подстановок.
+      Рассмотрим пример шифрования сообщения «ПРИЛЕТАЮ ЗАВТРА» с использованием системы шифрования Трисемуса. В качестве ключевого слова будем использовать слово «РАБОТА», размер таблицы подстановки - 4 х 8.
+      Примечание: Так как при размере таблицы 4 х 8 в нее может быть записано только 32 буквы, из исходного алфавита будет исключена буква «ё».
+      В таблицу сначала по строкам вписывается ключевое слово, причем повторно встречающиеся в нем буквы не записываются. Затем эта таблица дополняется не вошедшими в нее буквами алфавита по порядку. 
+  
+        Составной ключ шифрования в данной системе включает ключевое слово и размер таблицы подстановок.
+      Рассмотрим пример шифрования сообщения «ПРИЛЕТАЮ ЗАВТРА» с использованием системы шифрования Трисемуса. В качестве ключевого слова будем использовать слово «РАБОТА», размер таблицы подстановки - 4 х 8.
+      Примечание: Так как при размере таблицы 4 х 8 в нее может быть записано только 32 буквы, из исходного алфавита будет исключена буква «ё».
+      В таблицу сначала по строкам вписывается ключевое слово, причем повторно встречающиеся в нем буквы не записываются. Затем эта таблица дополняется не вошедшими в нее буквами алфавита по порядку 
       </p>
     <section>
       <!-- Choix cryptage -->
@@ -128,7 +65,7 @@
           <div class="col-auto my-1">
             <label class="mr-sm-2 sr-only" for="inlineFormCustomSelectA">Preference</label>
             <select class="custom-select mr-sm-1" id="inlineFormCustomSelectA">
-              <option selected>Choose the key A</option>
+              <option selected>How much colums?</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -144,7 +81,7 @@
           <div class="col-auto my-1">
             <label class="mr-sm-2 sr-only" for="inlineFormCustomSelectB">Preference</label>
             <select class="custom-select mr-sm-1" id="inlineFormCustomSelectB">
-              <option selected>Choose the key B</option>
+              <option selected>How much lines?</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -167,6 +104,14 @@
           <span class="input-group-text">Alphabet</span>
         </div>
         <input class="form-control" id="alphabet" aria-label="With textarea" value="абвгдеёжзийклмнопрстуфхцчшщъыьэюя" ></input>
+      </div>
+
+      <!-- Entree de texte -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Word Key's</span>
+        </div>
+        <textarea class="form-control wordkey" id="wordkey" aria-label="With textarea">. . .</textarea>
       </div>
 
       <!-- Entree de texte -->
@@ -196,9 +141,9 @@
         <li class="page-item ">
           <a class="page-link" href="index.html" tabindex="-1">Previous</a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item">
-          <a class="page-link" href="trisemus.html">2 <span class="sr-only">(current)</span></a>
+        <li class="page-item "><a class="page-link" href="index.html">1</a></li>
+        <li class="page-item active">
+          <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
         </li>
         <li class="page-item ">
           <a class="page-link" href="klyuch.html">3 <span class="sr-only">(current)</span></a>
@@ -217,6 +162,6 @@
 </body>
   <script src="vendor/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/affine.js"></script>
+  <!-- <script src="js/main.js"></script> -->
+  <script src="js/app.js"></script>
 </html>

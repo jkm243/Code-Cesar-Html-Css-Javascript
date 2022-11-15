@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="icon" href="img/logo.ico" type="images">
+    <title>CodeCesar</title>
+
+    <!-- lien Boostrap -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <!-- Lien Fonts -->
+    <link rel="stylesheet" href="css/font-face.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lien FontAwesome -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+</head>
+<body>
+  <section class="container mt-5">
+    <div class=" text-center">
+      <h1 class="text-center mt-3">Система шифрования Цезаря с ключевым словомя</h1>
+    </div>
+    <p class="m-6">Особенность системы шифрования Цезаря с ключевым словом - использование ключевого слова для смещения и изменения порядка символов в алфавите подстановки. Для этой системы ключ должен быть составным и содержать некоторое число (например, k) и ключевое слово. Для числа k должно соблюдаться требование
+      0 < k < m - 1,
+      где m - количество букв в алфавите.
+      Рассмотрим пример шифрования сообщения «ПРИЛЕТАЮ ЗАВТРА» с использованием системы шифрования Цезаря с ключевым словом. Примем k = 5, в качестве ключевого слова будем использовать слово «РАБОТА».
+      Первым этапом шифрования является запись ключевого слова в таблицу подстановок, начиная с буквы исходного алфавита с номером k. Если ключевое слово имеет повторяющиеся буквы, в таблицу подстановок повторно они не записываются 
+      
+      </p>
+    <section>
+      <!-- Choix cryptage -->
+      <div class="choice text-center pb-5 pt-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="bout1 btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off"> No Crypted
+          </label>
+          <label class="bout2 btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Crypted
+          </label>
+        </div>
+      </div>
+    
+      <!-- Choix de la cle -->
+      <div class="key mt-5">
+        <div class="form-row align-items-center">
+          <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelectA">Preference</label>
+            <select class="custom-select mr-sm-1" id="inlineFormCustomSelectA">
+              <option selected>Choose the key A</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alphabet -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Alphabet</span>
+        </div>
+        <input class="form-control" id="alphabet" aria-label="With textarea" value="абвгдеёжзийклмнопрстуфхцчшщъыьэюя" ></input>
+      </div>
+
+      <!-- Entree de texte -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Word key</span>
+        </div>
+        <textarea class="form-control wordkey" id="wordkey" aria-label="With textarea">. . .</textarea>
+      </div>
+
+      <!-- Entree de texte -->
+      <div class="input-group pt-5 ">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Original Text</span>
+        </div>
+        <textarea class="form-control txtOr2" id="source" aria-label="With textarea">. . .</textarea>
+      </div>
+
+      <!-- Sortie de texte -->
+      <div class="input-group pt-5 pb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Crypted Text</span>
+        </div>
+        <textarea class="form-control txtCr2" id="dest" aria-label="With textarea" readonly>. . .</textarea>
+      </div>
+
+      <div class="erreur2 pb-5"></div>
+      <div id="error"></div>
+
+    </section>
+  </section>
+  <div class="pagination container text-center mt-5">
+      <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item ">
+            <a class="page-link" href="trisemus.html" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item "><a class="page-link" href="index.html">1</a></li>
+          <li class="page-item ">
+            <a class="page-link" href="trisemus.html">2 <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">3 <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="trisemus.html">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  <section class="footer container-fluid">
+    <p class="ft">© 2022 Работа студенты Иивт-Ви43  <a href="http://jacqueskatsuva.com"> Катсува Жак-Эммануэль Мутано</a> <br>
+  Все материалы, находящиеся на сайте охраняются в соответствии с законодательством Российской Федерации, в том числе об авторском праве и смежных правах.</p>
+  </section>
+
+</body>
+  <script src="vendor/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/klych.js"></script>
+</html>
