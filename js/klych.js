@@ -1,8 +1,8 @@
 /******************************************************************************
 
-                            Trisemus Chiffrement.
+                    Chiffrement de Cesar avec mot cle.
                 Code fait et realise par Jacques Katsuva
- Le travail est realise avec l'alphabet russe qui contient ici 32 lettres
+ Le travail est realise avec l'alphabet russe qui contient ici 33 lettres
 
 *******************************************************************************/
 

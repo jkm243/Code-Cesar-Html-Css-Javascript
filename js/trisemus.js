@@ -1,182 +1,81 @@
-var textOr2 = document.querySelector('.txtOr2')
-var textCr2 = document.querySelector(".txtCr2")
-// var wordkey = document.querySelector(".wordkey")
-var key_A = document.querySelector('#inlineFormCustomSelectA')
-var key_B = document.querySelector('#inlineFormCustomSelectB')
-var erreur2 = document.querySelector('.erreur2')
+/******************************************************************************
+
+                            Trisemus Chiffrement.
+                Code fait et realise par Jacques Katsuva
+ Le travail est realise avec l'alphabet russe qui contient ici 32 lettres
+
+*******************************************************************************/
 
 
+// les variables
+const n = 4
+const m = 8
+const alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя"
+const alph = alphabet.split('')
+const word = "работа"
+const word_tab = word.split('')
+const txt = "прилетаю завтра"
+const txt_tab = txt.split('')
+let key
+let result = []
+let multiple = []
+let rs = []
 
-/* конец оформления */
-var cipher = new AffinCipher('source', 'dest');
-cipher.init();
-document.getElementById('source').oninput = function () {
-     cipher.decrypt();
- }
- document.getElementById('source').oninput = function () {
-    cipher.encrypt();
+
+// Division de l'alphabet et nettoyage de la cle
+key = cleanArray(word_tab)
+console.log("Alphabet =", alph)
+console.log("Key =", key)
+
+
+// Melange des deux tables et nettoyage des doublons - Table de trisemus 
+melange = result.concat(key)
+melange2 = cleanArray(melange.concat(alph))
+
+
+// Resultat tableau global
+console.log("Result =", melange2)
+
+
+// Division De la table generale en 4 table de 8 element
+let master = []
+let k = 0
+for (let i = 0; i < 4; i++) {
+    master.push([melange2.slice(k, k + 8)])
+    k += 8
 }
+console.log("Master =", master) //Ref: master[3][0][2]
 
- document.getElementById('alphabet').onkeyup = function () {
-     this.setAttribute('title', this.value.length + ' символов');
-}
-document.getElementById('alphabet').onkeyup();
 
-// Traduction sur texte original Cesar 2
-txtOr2.addEventListener("input", (e) => {
-    // Recuperation valeur de la cle
-    if (key_A.value == 'Choose the key A') {
-        erreur2.innerHTML = '*Choose the key A'
-        erreur2.style.color = 'red'}
-    else if (key_B.value == 'Choose the key B') {
-        erreur2.innerHTML = '*Choose the key B'
-        erreur2.style.color = 'red'}
-    if (option1.checked === true) {
-        source.onkeyup = function () {
-            cipher.encrypt();
-        }
-        erreur2.innerHTML = ''
-    } else {
-        source.onkeyup = function () {
-            cipher.encrypt();
-        }
-        erreur.innerHTML = ''
-    } 
-})
-
-/**
-* @param string source id textarea с исходным текстом
-* @param string dest id textarea с зашифрованным текстом
-*/
-function AffinCipher(source, dest) {
-    this.src = document.getElementById(source);
-    this.dst = document.getElementById(dest);
-
-    this.init = function () {
-        this.alphabet = document.getElementById('alphabet').value;
-        this.kInput = document.getElementById('inlineFormCustomSelectA');
-        this.aInput = document.getElementById('inlineFormCustomSelectB');
-        this.prevAlph = this.alphabet.toLowerCase();
-        this.symbols = [];
-        for (var i = 0; i < this.prevAlph.length; i++) {
-            this.symbols.push(this.prevAlph.charAt(i));
-        }
-    };
-    /**
-     * Проверяет, являются ли два числа взаимно простыми.
-     * @param a int число
-     * @param b int число
-     * @return boolean true, если являются, false - иначе
-     **/
-    this.isCoprime = function (a, b) {
-        var min = Math.min(a, b);
-        for (var i = 2; i <= min; i++) {
-            if (!(a % i) && !(b % i))
-                return false;
-        }
-        return true;
-    };
-    /**
-     * Возвращает номер буквы c в алфавите symbols
-     * @param symbols array буквы
-     * @param c буква
-     * @return int номер позиции c в symbols, -1,
-     * если такая отсутствует.
-     */
-    this.getPos = function (c) {
-        for (var i = 0; i < this.alphabet.length; i++) {
-            if (this.alphabet.charAt(i) == c)
-                return i;
-        }
-        return -1;
-    };
-    this.encrypt = function () {
-        this.alphabet = document.getElementById('alphabet').value;
-        var k = parseInt(this.kInput.value);
-        var a = parseInt(this.aInput.value);
-        this.kInput.value = k;
-        this.aInput.value = a;
-        if (!this.validate(a, k)) {
-            return;
-        }
-        document.getElementById('error').style.display = 'none';
-        var n = this.alphabet.length;
-        var text = this.src.value.toLowerCase();
-        var encryptedT = '';
-        for (var i = 0; i < text.length; i++) {
-            var c = text.charAt(i);
-            var pos = this.alphabet.indexOf(c);
-            if (pos < 0) {
-                encryptedT += c; // не шифруем данный символ
-                continue;
+// Chiffrement des lettres
+for (let k = 0; k < txt_tab.length; k++) {
+        let symbol = txt_tab[k]
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (symbol == master[i][0][j]) {
+                symbol = master[(i+1)%4][0][j]
+                i=4
+                break
             }
-            var newPos = (parseInt(pos) * k + a) % n;
-            var newC = this.alphabet.charAt(newPos);
-            encryptedT += newC;
         }
-        this.dst.value = encryptedT;
-    };
-    this.decrypt = function () {
-        this.alphabet = document.getElementById('alphabet').value;
-        var k = parseInt(this.kInput.value);
-        var a = parseInt(this.aInput.value);
-        this.kInput.value = k;
-        this.aInput.value = a;
-        if (!this.validate(a, k)) {
-            return;
-        }
-        document.getElementById('error').style.display = 'none';
-        var n = this.alphabet.length;
-        var kInverse = this.calcInverse(k, n);
-        var text = this.dst.value.toLowerCase();
-        var decryptedT = '';
-        for (var i = 0; i < text.length; i++) {
-            var c = text.charAt(i);
-            var pos = this.alphabet.indexOf(c);
-            if (pos < 0) {
-                decryptedT += c; // не расшифровываем данный символ
-                continue;
-            }
-            var newPos = (kInverse * (parseInt(pos) + n - a)) % n;
-            var newC = this.alphabet.charAt(newPos);
-            decryptedT += newC;
-        }
-        this.src.value = decryptedT;
-    };
-    /**
-     * Проверяет, корректны ли значения A и K.
-     * Устанавливает текст ошибки в div#error
-     * @param a int число A из формы
-     * @param k int число K из формы
-     * @return boolean true если всё верно, иначе - false.
-     */
-    this.validate = function (a, k) {
-        var coprime = '<a href="http://ru.wikipedia.org/wiki/Взаимно_простые_числа" target="_blank">взаимно простыми</a>';
-        var errorDiv = document.getElementById('error');
-        if (a != parseInt(a) || k != parseInt(k)) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = 'A и K должны быть целыми числами.';
-            return false;
-        }
-        if (k <= 0 || a < 0) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = 'A и K не могут быть отрицательными; K не может быть равен нулю.';
-            return false;
-        }
-        if (!this.isCoprime(this.alphabet.length, k)) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = 'Длина алфавита (' +
-                this.alphabet.length +
-                ') и K не должны быть ' + coprime + '.';
-            return false;
-        }
-        return true;
-    };
-    this.calcInverse = function (k, n) {
-        for (var i = 1; i < n; i++) {
-            if ((k * i) % n == 1)
-                return i;
-        }
-        return 1;
-    };
+    }
+    rs[k]=symbol
 }
+console.log("Key =",word)
+console.log("Word =",txt_tab.join(""))
+console.log("Trisemus Chiff =",rs.join(""))
+
+//Fonction pour supprimer les doublons
+function cleanArray(array) {
+    var i, j, len = array.length, out = [], obj = {};
+    for (i = 0; i < len; i++) {
+        obj[array[i]] = 0;
+    }
+    for (j in obj) {
+        out.push(j);
+    }
+    return out;
+}
+
+
+
