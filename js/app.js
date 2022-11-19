@@ -8,10 +8,11 @@ const word_tab = word.split('')
 const txt = "прилетаю завтра"
 const txt_tab = txt.split('')
 let key
-let m1=[],m2=[],m3=[],m4=[]
+let m1 = [], m2 = [], m3 = [], m4 = []
 let result = []
 let multiple = []
 var num = [];
+let rs = []
 
 // var num = [,];
 // for (let i = 0; i < n; i++) {
@@ -35,17 +36,34 @@ melange2 = cleanArray(melange.concat(alph))
 
 
 // Resultat tableau global
-console.log("Result =",melange2)
+console.log("Result =", melange2)
 
 
 // Division De la table generale en 4 table de 8 element
 let master = []
 let k = 0
 for (let i = 0; i < 4; i++) {
-    master.push([melange2.slice(k,k+8)])
-    k+=8
+    master.push([melange2.slice(k, k + 8)])
+    k += 8
 }
-console.log("Master =",master) //master[3][0][2]
+console.log("Master =", master) //master[3][0][2]
+
+
+// Chiffrement des lettres
+for (let k = 0; k < txt_tab.length; k++) {
+        let symbol = txt_tab[k]
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (symbol == master[i][0][j]) {
+                symbol = master[(i+1)%4][0][j]
+                i=4
+                break
+            }
+        }
+    }
+    rs[k]=symbol
+}
+console.log(rs)
 
 //Fonction pour supprimer les doublons
 function cleanArray(array) {
