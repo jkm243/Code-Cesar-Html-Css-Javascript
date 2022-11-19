@@ -1,3 +1,12 @@
+/******************************************************************************
+
+                            Trisemus Chiffrement.
+                Code fait et realise par Jacques Katsuva
+ Le travail est realise avec l'alphabet russe qui contient ici 32 lettres
+
+*******************************************************************************/
+
+
 // les variables
 const n = 4
 const m = 8
@@ -8,20 +17,9 @@ const word_tab = word.split('')
 const txt = "прилетаю завтра"
 const txt_tab = txt.split('')
 let key
-let m1 = [], m2 = [], m3 = [], m4 = []
 let result = []
 let multiple = []
-var num = [];
 let rs = []
-
-// var num = [,];
-// for (let i = 0; i < n; i++) {
-//     for (let j = 0; j < m; j++) {
-//         num[i, j] = Math.floor(Math.random(6.2) * 100)
-//         console.log(num[i, j]);
-//         key += 1
-//     }
-// }
 
 
 // Division de l'alphabet et nettoyage de la cle
@@ -46,7 +44,7 @@ for (let i = 0; i < 4; i++) {
     master.push([melange2.slice(k, k + 8)])
     k += 8
 }
-console.log("Master =", master) //master[3][0][2]
+console.log("Master =", master) //Ref: master[3][0][2]
 
 
 // Chiffrement des lettres
@@ -63,7 +61,9 @@ for (let k = 0; k < txt_tab.length; k++) {
     }
     rs[k]=symbol
 }
-console.log(rs)
+console.log("Key =",word)
+console.log("Word =",txt_tab.join(""))
+console.log("Trisemus Chiff =",rs.join(""))
 
 //Fonction pour supprimer les doublons
 function cleanArray(array) {
