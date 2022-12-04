@@ -5,7 +5,15 @@
  Le travail est realise avec l'alphabet russe qui contient ici 32 lettres
 
 *******************************************************************************/
-
+// link with DOM
+// var textOr2 = document.querySelector('.txtOr2')
+// var textCr2 = document.querySelector(".txtCr2")
+// var key_A = document.querySelector('#inlineFormCustomSelectA')
+// var key_B = document.querySelector('#inlineFormCustomSelectB')
+// var erreur2 = document.querySelector('.erreur2')
+// var word_key = document.querySelector('word_key')
+// var source = document.querySelector('source')
+// var dest = document.querySelector('dest')  
 
 // les variables
 const n = 4
